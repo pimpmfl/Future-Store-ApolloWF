@@ -1,0 +1,116 @@
+---
+name: "storeWorkflow"
+dataIns:
+- name: "base64EncodedImage"
+  type: "string"
+  source: "base64Image"
+workflowBody:
+- function:
+    name: "ScanImage"
+    type: "ScanImage"
+    dataIns:
+    - name: "base64ImageString"
+      type: "string"
+      source: "storeWorkflow/base64EncodedImage"
+    dataOuts:
+    - name: "presentFaces"
+      type: "boolean"
+    - name: "base64Image"
+      type: "string"
+- if:
+    name: "IsFaceInPicture"
+    condition:
+    - data1: "ScanImage/presentFaces"
+      data2: true
+      type: "boolean"
+      operator: "=="
+      negation: "false"
+      combinedWith: "and"
+    then:
+    - function:
+        name: "DetectFace"
+        type: "DetectFace"
+        dataIns:
+        - name: "base64ImageString"
+          type: "string"
+          source: "ScanImage/base64Image"
+        dataOuts:
+        - name: "base64Image"
+          type: "string"
+    - function:
+        name: "MapFaceToUser"
+        type: "MapFaceToUser"
+        dataIns:
+        - name: "base64ImageString"
+          type: "string"
+          source: "DetectFace/base64Image"
+        dataOuts:
+        - name: "customerId"
+          type: "number"
+    - if:
+        name: "ExistingCustomer"
+        condition:
+        - data1: "MapFaceToUser/customerId"
+          data2: 0
+          type: "number"
+          operator: ">"
+          negation: "false"
+          combinedWith: "and"
+        then:
+        - function:
+            name: "HasOrder"
+            type: "HasOrder"
+            dataIns:
+            - name: "customerId"
+              type: "number"
+              source: "MapFaceToUser/customerId"
+            dataOuts:
+            - name: "orderId"
+              type: "number"
+            - name: "orderState"
+              type: "string"
+        - if:
+            name: "CustomerHasOrder"
+            condition:
+            - data1: "HasOrder/orderState"
+              data2: "readyForPickup"
+              type: "string"
+              operator: "=="
+              negation: "false"
+              combinedWith: "and"
+            then:
+            - function:
+                name: "NotifyStorage"
+                type: "NotifyStorage"
+                dataIns:
+                - name: "orderId"
+                  type: "number"
+                  source: "HasOrder/orderId"
+                dataOuts:
+                - name: "notificationSent"
+                  type: "boolean"
+            dataOuts: []
+        - function:
+            name: "NotifyRelevantOffers"
+            type: "NotifyRelevantOffers"
+            dataIns:
+            - name: "customerId"
+              type: "number"
+              source: "MapFaceToUser/customerId"
+            dataOuts:
+            - name: "successfullyNotified"
+              type: "boolean"
+        else:
+        - function:
+            name: "RegisterCustomer"
+            type: "RegisterCustomer"
+            dataIns:
+            - name: "base64ImageString"
+              type: "string"
+              source: "DetectFace/base64Image"
+            dataOuts:
+            - name: "customerId"
+              type: "number"
+        dataOuts: []
+    dataOuts: []
+dataOuts: []

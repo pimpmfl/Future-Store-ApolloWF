@@ -1,0 +1,79 @@
+[
+    {
+        "functionType": "MapFaceToUser",
+        "resources": [
+            {
+                "type": "Serverless",
+                "properties": {
+                    "Uri": "<AWS Lambda function link>"
+                }
+            }
+        ]
+    },
+    {
+        "functionType": "DetectFace",
+        "resources": [
+            {
+                "type": "Serverless",
+                "properties": {
+                    "Uri": "<AWS Lambda function link>"
+                }
+            }
+        ]
+    },
+    {
+        "functionType": "HasOrder",
+        "resources": [
+            {
+                "type": "Serverless",
+                "properties": {
+                    "Uri": "<AWS Lambda function link>"
+                }
+            }
+        ]
+    },
+    {
+        "functionType": "NotifyRelevantOffers",
+        "resources": [
+            {
+                "type": "Serverless",
+                "properties": {
+                    "Uri": "<AWS Lambda function link>"
+                }
+            }
+        ]
+    },
+    {
+        "functionType": "NotifyStorage",
+        "resources": [
+            {
+                "type": "Serverless",
+                "properties": {
+                    "Uri": "<AWS Lambda function link>"
+                }
+            }
+        ]
+    },
+    {
+        "functionType": "RegisterCustomer",
+        "resources": [
+            {
+                "type": "Serverless",
+                "properties": {
+                    "Uri": "<AWS Lambda function link>"
+                }
+            }
+        ]
+    },
+    {
+        "functionType": "ScanImage",
+        "resources": [
+            {
+                "type": "Serverless",
+                "properties": {
+                    "Uri": "<AWS Lambda function link>"
+                }
+            }
+        ]
+    }
+]
