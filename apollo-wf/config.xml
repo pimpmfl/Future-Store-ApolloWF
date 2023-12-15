@@ -1,0 +1,26 @@
+<configuration>
+  <module class="at.uibk.dps.ee.control.modules.EnactmentVerticleModule">
+    <property name="pauseOnStart">false</property>
+    <property name="deploymentNumber">8</property>
+    <property name="delayInSeconds">0</property>
+  </module>
+  <module class="at.uibk.dps.ee.enactables.modules.CoreFunctionsModule"/>
+  <module class="at.uibk.dps.ee.io.modules.InputReaderFileModule">
+    <property name="filePath">storeInput.json</property>
+  </module>
+  <module class="at.uibk.dps.ee.io.modules.OutputPrinterModule"/>
+  <module class="at.uibk.dps.ee.io.modules.SpecificationInputModule">
+    <property name="filePathAfcl">testWF.yml</property>
+    <property name="filePathMappingFile">typeMappings.json</property>
+  </module>
+  <module class="at.uibk.dps.ee.visualization.modules.EnactmentViewerModule">
+    <property name="closeOnTerminate">false</property>
+    <property name="updatePeriodMs">100</property>
+  </module>
+  <module class="at.uibk.dps.sc.core.modules.SchedulerModule">
+    <property name="schedulingMode">SingleOption</property>
+    <property name="mappingsToPick">1</property>
+    <property name="sizeThresholdKb">10</property>
+    <property name="resourceArbitration">FCFS</property>
+  </module>
+</configuration>
