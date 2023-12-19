@@ -162,7 +162,6 @@ for customer in customers:
         print("Creating entry for: ", name, "\n")
         r.json().set(name, Path.root_path(), orders, decode_keys=True)
 
-
 print("Getting orders\n")
 for customer in customers:
     for key in customer.keys():
