@@ -3,6 +3,8 @@ import random
 import json
 from redis.commands.json.path import Path
 
+"This functions generates a recommend order for a given user based on their previously purchased items"
+
 EC2_IP = "18.209.102.135"
 
 r = redis.Redis(
@@ -48,8 +50,9 @@ def lambda_handler(event, context):
     }
 
 
-lambda_event = {
-    "customer_name": "Jill Valentine"
-}
+"Uncomment for testing"
+# lambda_event = {
+#   "customer_name": "Jill Valentine"
+# }
 
-print(lambda_handler(lambda_event,None))
+# print(lambda_handler(lambda_event,None))
