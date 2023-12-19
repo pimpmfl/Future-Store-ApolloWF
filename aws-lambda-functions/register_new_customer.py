@@ -1,4 +1,3 @@
-import json
 
 def lambda_handler(event, context):
     # TODO input is a base64 image string containing a face
