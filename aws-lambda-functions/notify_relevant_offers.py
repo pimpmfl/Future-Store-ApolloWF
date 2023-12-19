@@ -5,6 +5,7 @@ from redis.commands.json.path import Path
 
 "This functions generates a recommend order for a given user based on their previously purchased items"
 
+# Change IP as needed
 EC2_IP = "18.209.102.135"
 
 r = redis.Redis(
