@@ -1,7 +1,4 @@
 import redis
-import random
-import json
-from redis.commands.json.path import Path
 
 "This function checks weather the user has an active order"
 "Returns various information related to the customer, can be adapted as needed"
