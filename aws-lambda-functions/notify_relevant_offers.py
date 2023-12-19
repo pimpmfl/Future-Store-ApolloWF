@@ -11,7 +11,7 @@ EC2_IP = "18.209.102.135"
 r = redis.Redis(
     host=EC2_IP, port=6379,
     username="default",
-    password="Mkmkl0loopo",
+    password="password",
     decode_responses=True
 )
 
