@@ -10,7 +10,8 @@ r = redis.Redis(
     decode_responses=True
 )
 
-"This function takes customer_name and order as input from has_order and it returns a new JSON saying that the storage has been notified"
+# This function takes customer_name and order as input from has_order
+# It updates the customer's order in the database and then returns a response in JSON format
 def lambda_handler(event, context):
     customer_name = event["customer_name"]
     if customer_name is None:
