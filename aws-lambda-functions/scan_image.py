@@ -4,7 +4,12 @@ import boto3
 # Returns a response in JSON
 def lambda_handler(event, context):
     # Setup
-    image = event['img']
+    image = event.get('img')
+    if image is None: 
+        return {
+            'error': "No image has been provided."
+        }
+
     region = 'us-east-1'
     service = 'rekognition'
     # Running this on your local machine will require additional parameters for the AWS credentials
