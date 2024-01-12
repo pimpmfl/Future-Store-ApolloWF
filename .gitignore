@@ -1,3 +1,5 @@
 # Project files
 .idea/*
 aws-lambda-functions/.idea
+aws-lambda-functions/test_event.json
+aws-lambda-functions/test.jpg
