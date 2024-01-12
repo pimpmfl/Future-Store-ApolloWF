@@ -47,9 +47,11 @@ def lambda_handler(event, context):
         'face_images': face_images 
     }
 
-if __name__ == '__main__':
-    with open('test_event.json', 'r') as test_event_data:
-        json_string = test_event_data.read()
-        test_event = json.loads(json_string)
-        response = lambda_handler(test_event,None)
-        print(response)
+# if __name__ == '__main__':
+#     with open('test_event.json', 'r') as test_event_data:
+#         json_string = test_event_data.read()
+#         test_event = json.loads(json_string)
+#         response = lambda_handler(test_event,None)
+#         print(response)
+#         with open('response_detect_face.json', 'w') as f:
+#             json.dump(response, f)
