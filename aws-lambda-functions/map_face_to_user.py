@@ -92,7 +92,7 @@ def lambda_handler(event, context):
 
     print('Best match:', best_match)
     return {
-        'customerId': best_match
+        'customer_name': best_match
     }
 
 
