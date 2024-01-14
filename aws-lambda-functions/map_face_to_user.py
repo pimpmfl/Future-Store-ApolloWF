@@ -1,5 +1,7 @@
 import json, redis, boto3, base64
 
+ec2IP = '127.0.0.1'
+
 def lambda_handler(event, context):
     face64 = event.get('face')
     if face64 is None: 
@@ -17,7 +19,7 @@ def lambda_handler(event, context):
     s3 = boto3.client('s3')
    
     r = redis.Redis(
-        host='127.0.0.1', port=6379,
+        host=ec2IP, port=6379,
         username="default",
         password="Mkmkl0loopo",
         decode_responses=True
@@ -40,7 +42,6 @@ def lambda_handler(event, context):
                     SourceImage={'Bytes': face},
                     TargetImage={'Bytes': target_image_bytes},
                     SimilarityThreshold= 80
-
                 )
                 matches=response.get('FaceMatches')
                 for match in matches:
