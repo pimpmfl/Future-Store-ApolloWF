@@ -1,5 +1,7 @@
 import json, redis, boto3, base64
+
 ec2IP = '44.206.127.26'
+
 def create_face_collection(rekognition, collection_id):
     existing_collections=rekognition.list_collections(MaxResults=5).get('CollectionIds')
     if ((existing_collections is None) or (collection_id not in existing_collections)):
@@ -33,7 +35,6 @@ def index_collection(redis, bucket, rekognition, collection_id):
         folder_path = 'faces/' + username
         images_of_user = bucket.objects.filter(Prefix=folder_path)
         for user_image in images_of_user:
-            start_request = time.time()
             index_faces(rekognition,collection_id, user_image, username)
 
 def upload_image_to_s3(bucket_name, key, image_bytes):
@@ -95,7 +96,7 @@ def lambda_handler(event, context):
     }
 
 
-#Simulate locally
+# # Simulate locally
 # if __name__ == '__main__':
 #     with open('response_detect_face.json', 'r') as test_event_data:
 #         json_string = test_event_data.read()
