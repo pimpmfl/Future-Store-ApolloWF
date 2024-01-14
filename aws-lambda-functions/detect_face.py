@@ -40,11 +40,11 @@ def lambda_handler(event, context):
         im_bytes = bytes.getvalue()
         
         #store the face as base64 string
-        face_images.append(base64.b64encode(im_bytes).decode('utf-8'))
+        face_images.append({'face': base64.b64encode(im_bytes).decode('utf-8')})
 
     # Now face_images contains individual face images
     return {
-        'face_images': face_images 
+        'faces': face_images 
     }
 
 # if __name__ == '__main__':
