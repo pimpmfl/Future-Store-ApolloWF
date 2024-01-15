@@ -1,4 +1,4 @@
-# Future-Store-ApolloWF
+# Future-Store-AWS-StepFunctions
 
 ## About
 This project focuses on creating an **AWS Step Functions** workflow that triggers AWS Lambda functions to identify customers in a store, register new ones, notify the storage about an open order of a customer when he/she enters the store and also send push notifications to customers in the store about all promotions/offers.
@@ -23,6 +23,8 @@ The pictures of the customers entering the store are run through Amazon Rekognit
 - Don't forget to update the IAM role of the instance to LabRole  
 - Optionally you can create an elastic IP for your instance
 
+---   
+
 ### Lambda Functions:
 For Lambda functions use Python 3.12 runtime(x86_64)
 #### Add layers to functions  
@@ -38,6 +40,8 @@ map_face_to_user_layer:
 #### Replace connection data
 Replace the EC2 address in the code of the above functions with the public DNS of your elastic IP or use the private IP of your EC2 instance  
 Don't forget to update the database password/port aswell
+
+---  
 
 ### VPC:
 Create a VPC for your EC2 Instance
@@ -63,3 +67,7 @@ Additionally the function map_faces_to_users requires an additional SecurityGrou
 Create VPC endpoints with default SecurityGroup
 - Create a VPC endpoint for S3 (com.amazonaws.us-east-1.s3)(Gateway)
 - Create a VPC endpoint for Rekognition(rekognition.us-east-1.amazonaws.com)
+
+---   
+
+---   
