@@ -35,6 +35,9 @@ def lambda_handler(event, context):
 
         # Crop the face from the original image
         face_image = image_decoded.crop((left, top, left + width, top + height))
+        if face_image.mode == 'RGBA':
+            face_image = face_image.convert('RGB')
+            
         bytes = BytesIO()
         face_image.save(bytes, 'jpeg')
         im_bytes = bytes.getvalue()
