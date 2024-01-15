@@ -19,17 +19,21 @@ The pictures of the customers entering the store are run through Amazon Rekognit
 ## Setup:
 
 ### EC2:
-Add an inbound TCP rule on port 6379 
-Don't forget to update the IAM role of the instance to LabRole
-Optionally you can create an elastic IP for your instance
+- Add an inbound TCP rule on port 6379 (RedisPort)
+- Don't forget to update the IAM role of the instance to LabRole  
+- Optionally you can create an elastic IP for your instance
 
 ### Lambda Functions:
+For Lambda functions use Python 3.12 runtime(x86_64)
 #### Add layers to functions  
 redis_layer:
-- map_face_to_user
-- has_order
-- notify_storage
-- notify_relevant_offers
+- map_face_to_user.py
+- has_order.py
+- notify_storage.py
+- notify_relevant_offers.py
+
+map_face_to_user_layer:
+- map_face_to_user.py
 
 #### Replace connection data
 Replace the EC2 address in the code of the above functions with the public DNS of your elastic IP or use the private IP of your EC2 instance  
