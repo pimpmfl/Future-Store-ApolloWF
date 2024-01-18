@@ -4,12 +4,12 @@ import random
 "This functions generates a recommend order for a given user based on their previously purchased items"
 
 # Change IP as needed
-EC2_IP = "18.209.102.135"
+EC2_IP = "ec2-44-206-127-26.compute-1.amazonaws.com"
 
 r = redis.Redis(
     host=EC2_IP, port=6379,
     username="default",
-    password="password",
+    password="Mkmkl0loopo",
     decode_responses=True
 )
 
@@ -24,9 +24,13 @@ def generate_recommended_order(past_orders: dict):
     number_of_items = random.choice([1, 2, 3, 4, 5])
     past_items = []
 
+    if len(past_orders.keys()) == 0:
+        return None
+
     # Add past items to a list, so its compatible with random.choice
     for item in past_orders.keys():
         past_items.append(item)
+
 
     for i in range(number_of_items):
         item = random.choice(past_items)
@@ -49,9 +53,12 @@ def lambda_handler(event, context):
     }
 
 
-"Uncomment for testing"
+# "Uncomment for testing"
 # lambda_event = {
-#    "customer_name": "Jill Valentine"
+#   "customer_name": "Alicia_Witt",
+#   "has_order": False,
+#   "order": {},
+#   "orderState": "readyForPickup"
 # }
 
 # print(lambda_handler(lambda_event, None))
