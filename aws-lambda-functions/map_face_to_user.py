@@ -1,9 +1,10 @@
-import json, redis, boto3, base64
-
-ec2IP = '44.206.127.26'
+import json, redis, boto3, base64, os
+# IMPORTANT: This function takes a long time to build the initial indecies. Set timeout for first run to 60+ seconds and reduce afterwards
+ec2IP = 'ec2-44-206-127-26.compute-1.amazonaws.com'
 
 def create_face_collection(rekognition, collection_id):
     existing_collections=rekognition.list_collections(MaxResults=5).get('CollectionIds')
+
     if ((existing_collections is None) or (collection_id not in existing_collections)):
         rekognition.create_collection(CollectionId=collection_id)
         return True
@@ -36,17 +37,7 @@ def index_collection(redis, bucket, rekognition, collection_id):
         images_of_user = bucket.objects.filter(Prefix=folder_path)
         for user_image in images_of_user:
             index_faces(rekognition,collection_id, user_image, username)
-
-def upload_image_to_s3(bucket_name, key, image_bytes):
-    s3 = boto3.resource('s3')
-    bucket = s3.Bucket(bucket_name)
-    bucket.put_object(Key=key, Body=image_bytes)
-    return bucket.Object(key)
-
-def delete_image_from_s3(bucket_name, key):
-    s3 = boto3.client('s3')
-    s3.delete_object(Bucket=bucket_name, Key=key)
-
+        
 def lambda_handler(event, context):
     face64 = event.get('face')
     if face64 is None: 
@@ -54,7 +45,7 @@ def lambda_handler(event, context):
             'error': "No image has been provided."
         }
     face = base64.b64decode(face64)
-
+    print('start')
     #S3
     bucket_name = 'automatedstore'
     s3 = boto3.resource('s3')
@@ -75,7 +66,8 @@ def lambda_handler(event, context):
     )
 
 
-    # rekognition.delete_collection(CollectionId=collection_id)
+#    rekognition.delete_collection(CollectionId=collection_id)
+#    return{'msg':'deleted collection'}
     if create_face_collection(rekognition, collection_id):
         index_collection(r, bucket, rekognition, collection_id)
 
@@ -89,11 +81,22 @@ def lambda_handler(event, context):
         if similarity > 80 and similarity > highest_confidence:
             highest_confidence=similarity
             best_match = match.get('Face')['ExternalImageId']
+            
+    if (best_match != '-1') and (best_match not in r.keys()):
+        print(f'user {best_match} not present in database. deleting matched image from collection')
+        face_ids = []
+        faces = rekognition.list_faces(CollectionId=collection_id)['Faces']
+        for face in faces:
+            if face.get('ExternalImageId') == best_match:
+                face_ids.append(face['FaceId'])
+        
+        rekognition.delete_faces(CollectionId=collection_id, FaceIds=face_ids)
+        best_match='-1'
 
     print('Best match:', best_match)
     return {
         'customer_name': best_match,
-        'face': face64,
+        'face': face64
     }
 
 
