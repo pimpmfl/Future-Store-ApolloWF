@@ -4,3 +4,5 @@ aws-lambda-functions/.idea
 aws-lambda-functions/test_event.json
 aws-lambda-functions/test.jpg
 aws-lambda-functions/response_detect_face.json
+aws-lambda-functions/ms03-aws-lambda-functions.zip
+aws-step-functions/ms02_aws-step-function.zip
