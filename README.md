@@ -25,17 +25,20 @@ The pictures of the customers entering the store are run through Amazon Rekognit
 
 ---   
 
+### Redis
+- Install [Redis](https://redis.io/docs/install/install-redis/install-redis-from-source/)
+- Install the [RedisJSON](https://github.com/RedisJSON/RedisJSON/) Module
+- update the path of the RedisJSON module in start_server.sh
+
 ### Lambda Functions:
 For Lambda functions use Python 3.12 runtime(x86_64)
 #### Add layers to functions  
 redis_layer:
+- init_collection.py
 - map_face_to_user.py
 - has_order.py
 - notify_storage.py
 - notify_relevant_offers.py
-
-map_face_to_user_layer:
-- map_face_to_user.py
 
 #### Replace connection data
 Replace the EC2 address in the code of the above functions with the public DNS of your elastic IP or use the private IP of your EC2 instance  
@@ -56,7 +59,7 @@ For Security Roles it is important to create a new default role:
     - Ports: All
     - Destination: 0.0.0.0/0
 
-Additionally the function map_faces_to_users requires an additional SecurityGroup otherwise the Rekognition API cannot be accessed:
+Additionally the functions that use Rekognition (init_collection, map_faces_to_users, register_user) requires an additional SecurityGroup otherwise the Rekognition API cannot be accessed:
 - Inbound:
     - Protocoll: All
     - Ports: All
