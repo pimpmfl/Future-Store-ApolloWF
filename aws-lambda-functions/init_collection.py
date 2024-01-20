@@ -54,7 +54,9 @@ def lambda_handler(event, context):
         decode_responses=True,
     )
 
-    rekognition.delete_collection(CollectionId=collection_id)
+    # rekognition.delete_collection(CollectionId=collection_id)
+    # raise Exception('deleted collection')
+    
     if create_face_collection(rekognition, collection_id):
         index_collection(r, bucket, rekognition, collection_id)
 
