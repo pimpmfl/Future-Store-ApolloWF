@@ -39,9 +39,32 @@
               "NumericGreaterThan": 80
             }
           ],
-          "Next": "GetFaces"
+          "Next": "InitCollection"
         }
       ]
+    },
+    "InitCollection": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:us-east-1:780499386004:function:AutomatedStore_init_collection:$LATEST"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "GetFaces"
     },
     "GetFaces": {
       "Type": "Task",
