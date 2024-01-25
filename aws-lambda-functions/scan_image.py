@@ -5,8 +5,8 @@ import boto3, base64
 def lambda_handler(event, context):
     # Setup
     image = event.get('img')
-    encoded_image = base64.b64encode(image).decode('utf-8')
-    if image is None: 
+    encoded_image = base64.b64decode(image)
+    if image is None:
         return {
             'error': "No image has been provided."
         }
@@ -18,7 +18,7 @@ def lambda_handler(event, context):
 
     # Run the image through Amazon Rekognition
     response = rekognition.detect_faces(
-        Image={'Bytes': image},
+        Image={'Bytes': encoded_image},
         Attributes=['ALL']
     )
 
@@ -26,7 +26,7 @@ def lambda_handler(event, context):
     if response['FaceDetails']:
         return {
             'faces_in_image': len(response['FaceDetails']),
-            'image': encoded_image,
+            'image': image,
             'FaceDetails' : response['FaceDetails']
         }
     else:
@@ -39,12 +39,12 @@ def lambda_handler(event, context):
 # if __name__ == '__main__':
 #    with open('/home/ubuntu/faces/Al_Davis/Al_Davis_0001.jpg', 'rb') as image_file:
 #        image_data = image_file.read()
-   
+
 #    test_event = {
 #        'img': image_data
 #    }
 #    response = lambda_handler(test_event, None)
-   
+
 #    print(response)
 
 #    with open('response.json', 'w') as f:

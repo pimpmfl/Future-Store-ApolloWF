@@ -91,9 +91,11 @@
     },
     "ForEachFace": {
       "Type": "Map",
+      "InputPath": "$.faces",
       "ItemProcessor": {
         "ProcessorConfig": {
-          "Mode": "INLINE"
+          "Mode": "DISTRIBUTED",
+          "ExecutionType": "STANDARD"
         },
         "StartAt": "MapFaceToUser",
         "States": {
